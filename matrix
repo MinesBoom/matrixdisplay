@@ -32,17 +32,17 @@ end
 -- @return The formatted number
 function putNumber (number)
 
-  if type = RF
+  if type = RF then
     factor = 0.4
   else
-    if type = EU
+    if type = EU then
       factor = 0.1
     else
-      if type = J
+      if type = J then
         factor = 1
         type = " " .. type
       else
-        if type = MJ
+        if type = MJ then
           factor = 0.04
         else
           printUsage()
