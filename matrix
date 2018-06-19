@@ -6,22 +6,16 @@
 
 
 local function printUsage()
-  print("Usage:")
-  print("matrix <matrix> <monitor>")
-  print("if using modems just write used number")
-  print("e.g.:")
-  print("matrix local local")
-  print("matrix 1 9")
+
 end
 
 local tArgs = { ... }
-if #tArgs < 2 then
+if #tArgs < 1 then
   printUsage()
   return
 end
 
-matrix = tArgs[1]
-bild = tArgs[2]
+type = tArgs[1]
 
 function putValue (line, text, color)
   local align = 30 - string.len(text)
@@ -37,35 +31,56 @@ end
 -- @param number The number to format
 -- @return The formatted number
 function putNumber (number)
+
+  if type = RF then
+    factor = 0.4
+  else
+    if type = EU then
+      factor = 0.1
+    else
+      if type = J then
+        factor = 1
+        type = " " .. type
+      else
+        if type = MJ then
+          factor = 0.04
+        else
+          printUsage()
+          return
+        end
+      end
+    end
+  end
+  
   local round = 0
   local texts = ""
   
-  number = number / 10
+  number = number * factor
   if number >= 1000000000000000000 or number <= -1000000000000000000 then
     round = (number / 1000000000000000000)
-    texts = string.sub(round, 0, 5) .. " EEU"
+    texts = string.sub(round, 0, 5) .. " E" .. type
   else
     if number >= 1000000000000000 or number <= -1000000000000000 then
       round = (number / 1000000000000000)
-      texts = string.sub(round, 0, 5) .. " PEU"
+      texts = string.sub(round, 0, 5) .. " P" .. type
     else
       if number >= 1000000000000 or number <= -1000000000000 then
         round = (number / 1000000000000)
-        texts = string.sub(round, 0, 5) .. " TEU"
+        texts = string.sub(round, 0, 5) .. " T" .. type
       else
         if number >= 1000000000 or number <= -1000000000 then
           round = (number / 1000000000)
-          texts = string.sub(round, 0, 5) .. " GEU"
+          texts = string.sub(round, 0, 5) .. " G" .. type
         else
           if number >= 1000000 or number <= -1000000 then
             round = (number / 1000000)
-            texts = string.sub(round, 0, 5) .. " MEU"
+            texts = string.sub(round, 0, 5) .. " M" .. type
           else
             if number >= 1000 or number <= -1000 then
               round = (number / 1000)
-              texts = string.sub(round, 0, 5) .. " kEU"
+              texts = string.sub(round, 0, 5) .. " k" .. type
             else
-            texts = string.sub(number, 0, 5) .. "  EU"
+            texts = string.sub(number, 0, 5) .. "  " .. type
             end
           end
         end
@@ -81,16 +96,9 @@ end
 
 -- Initialize our interface!
 -- Find all of our peripherals
-if bild == "local" then
-  monitor = peripheral.find("monitor")
-else
-  monitor = peripheral.wrap("monitor_" .. bild)
-end
-if matrix == "local" then
-  battery = peripheral.find("Mekanism-InductionMatrix")
-else
-  battery = peripheral.wrap("Mekanism-InductionMatrix_" .. matrix)
-end
+
+monitor = peripheral.find("monitor")
+battery = peripheral.find("Mekanism-InductionMatrix")
 
 
 -- Check and bind monitor
@@ -123,7 +131,7 @@ end
 
 -- Draw our static interface text
 term.setCursorPos(11, 2);
-print("Max EU:")
+print("Max " .. type .. ":")
 term.setCursorPos(11, 3);
 print("Max Out:")
 
